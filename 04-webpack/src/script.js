@@ -1,5 +1,6 @@
 import './style.css';
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 const canvas = document.querySelector('canvas.webgl');
 
@@ -24,7 +25,7 @@ const cube1 = new THREE.Mesh(
   })
 )
 
-group.position.y = 2
+//group.position.y = 2
 group.add(cube1)
 
 //Cube 2
@@ -36,7 +37,7 @@ const cube2 = new THREE.Mesh(
 )
 
 cube2.position.x = -2
-group.add(cube2)
+//group.add(cube2)
 
 //Cube 3
 const cube3 = new THREE.Mesh(
@@ -47,11 +48,17 @@ const cube3 = new THREE.Mesh(
 )
 
 cube3.position.x = 2
-group.add(cube3)
+//group.add(cube3)
+
+
 //Camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.0001, 100)
 camera.position.z = 3
 scene.add(camera)
+
+//Controls
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
 
 //Renderer
 const renderer = new THREE.WebGLRenderer({
@@ -59,4 +66,13 @@ const renderer = new THREE.WebGLRenderer({
 });
 
 renderer.setSize(sizes.width, sizes.height);
-renderer.render(scene, camera);
+
+//gameloop 
+
+const gameloop = () => {
+  requestAnimationFrame(gameloop);
+  controls.update();
+  renderer.render(scene, camera);
+}
+
+gameloop();
