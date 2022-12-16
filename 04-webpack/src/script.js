@@ -5,17 +5,29 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 const canvas = document.querySelector('canvas.webgl');
 
 const sizes = {
-  width: 800,
-  height: 600
+  width: window.innerWidth,
+  height: window.innerHeight
 }
 
+//resize Event
+window.addEventListener('resize', () => {
+  sizes.width = window.innerWidth;
+  sizes.height = window.innerHeight;
+
+  // Update camera ratio
+  camera.aspect = sizes.width / sizes.height;
+  camera.updateProjectionMatrix();
+
+  // Update renderer
+  renderer.setSize(sizes.width, sizes.height)
+})
 
 // Create Scene
-const scene = new THREE.Scene()
+const scene = new THREE.Scene();
 
 //Create Group
-const group = new THREE.Group()
-scene.add(group)
+const group = new THREE.Group();
+scene.add(group);
 
 //Cube 1
 const cube1 = new THREE.Mesh(
@@ -36,7 +48,7 @@ const cube2 = new THREE.Mesh(
   })
 )
 
-cube2.position.x = -2
+cube2.position.x = -2;
 //group.add(cube2)
 
 //Cube 3
@@ -47,14 +59,14 @@ const cube3 = new THREE.Mesh(
   })
 )
 
-cube3.position.x = 2
+cube3.position.x = 2;
 //group.add(cube3)
 
 
 //Camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.0001, 100)
-camera.position.z = 3
-scene.add(camera)
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.0001, 100);
+camera.position.z = 3;
+scene.add(camera);
 
 //Controls
 const controls = new OrbitControls(camera, canvas);
