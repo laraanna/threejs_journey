@@ -19,21 +19,52 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
 
   // Update renderer
-  renderer.setSize(sizes.width, sizes.height)
+  renderer.setSize(sizes.width, sizes.height);
+
+  //limit pixel ratio for performance
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+})
+
+//double click Event to enter fullscreen
+window.addEventListener('dblclick', () => {
+  document.fullscreenElement == null ? canvas.requestFullscreen() : canvas.exitFullscreen();
+  console.log(document.fullscreenElement)
 })
 
 // Create Scene
 const scene = new THREE.Scene();
 
+//Create Object
+
+const geometry = new THREE.BufferGeometry();  
+const count = 50;
+const positionsArray = new Float32Array(count * 3 * 3);
+
+for (let i=0; i < count*3*3; i++) {
+  positionsArray[i] = Math.random() -0.5;
+}
+
+const positionsAttribute = new THREE.BufferAttribute(positionsArray,3);
+geometry.setAttribute('position',positionsAttribute);
+
+const material = new THREE.MeshBasicMaterial({ 
+  color: '#0000ff00',
+  wireframe: true
+});
+const mesh = new THREE.Mesh(geometry, material);
+scene.add(mesh);
+
 //Create Group
 const group = new THREE.Group();
-scene.add(group);
+//scene.add(group);
+
 
 //Cube 1
 const cube1 = new THREE.Mesh(
   new THREE.BoxGeometry(1, 1, 1), 
   new THREE.MeshBasicMaterial({
-    color: '#ff0000'
+    color: '#ff0000',
+    wireframe: true
   })
 )
 
