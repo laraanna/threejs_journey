@@ -19,13 +19,16 @@ const scene = new THREE.Scene()
  * Lights
  */
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
-scene.add(ambientLight)
+// scene.add(ambientLight)
 
-const pointLight = new THREE.PointLight(0xffffff, 0.5)
-pointLight.position.x = 2
-pointLight.position.y = 3
-pointLight.position.z = 4
-scene.add(pointLight)
+const directionalLight = new THREE.DirectionalLight(0x00fffc, 0.3)
+// scene.add(directionalLight)
+
+const hemisphereLight = new THREE.HemisphereLight(0x000000, 0x00fffc, 0.3)
+scene.add(hemisphereLight)
+
+const rectAreaLight = new THREE.RectAreaLight('#6dc1f2', 1.3, 5, 4)
+scene.add(rectAreaLight)
 
 /**
  * Objects
